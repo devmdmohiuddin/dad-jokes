@@ -1,29 +1,18 @@
-const sounds = ['bubble', 'trumpet', 'twincle']
+const jokeEl = document.getElementById('joke')
+const jokeBtn = document.getElementById('jokeBtn')
 
-sounds.forEach(sound => {
-  const btn = document.createElement('button')
+generateJoke()
 
-  btn.classList.add('btn')
+jokeBtn.addEventListener('click', generateJoke)
 
-  // stopSongs()
-
-  btn.innerText = sound
-
-  btn.addEventListener('click', () => {
-    stopSongs()
-
-    document.getElementById(sound).play()
+function generateJoke() {
+  fetch('https://icanhazdadjoke.com/', {
+    headers: {
+      'Accept': 'application/json'
+    }
   })
-
-  document.getElementById('buttons').appendChild(btn)
-})
-
-function stopSongs() {
-  sounds.forEach(sound => {
-    const song = document.getElementById(sound)
-
-    song.pause()
-    song.currentTime = 0;
+  .then(res => res.json())
+  .then(data => {
+    jokeEl.innerText = data.joke
   })
-
 }
